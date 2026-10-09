@@ -10,6 +10,13 @@
 
 ## 先跑本地演示
 
+第一次获取代码：
+
+```sh
+git clone https://github.com/Elcongroo/pqc-evidencekit.git
+cd pqc-evidencekit
+```
+
 在仓库根目录执行。首次学习建议先看[手工实验](docs/manual-lab.zh.md)，逐步观察同一条握手路径；下面是日常复现入口。
 
 ```sh

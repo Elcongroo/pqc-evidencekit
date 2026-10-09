@@ -55,7 +55,7 @@ class ReportTests(unittest.TestCase):
             self.assertIn(label, document)
         self.assertIn("Authentication", document)
         self.assertIn("握手签名；证书链算法尚未分析", document)
-        self.assertIn("观察到传统或混合签名", document)
+        self.assertIn("未确认全为抗量子签名", document)
         self.assertIn("已验证身份", document)
         self.assertIn("允许传统交换", document)
         self.assertIn("X25519MLKEM768", document)

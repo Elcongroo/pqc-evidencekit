@@ -26,7 +26,7 @@ _STATUS_LABELS = {
     "confirmed": ("已确认本次协商", "positive"),
     "not_negotiated": ("本次未协商成功", "neutral"),
     "pq_signature_observed": ("观察到后量子握手签名", "positive"),
-    "traditional_or_mixed_observed": ("观察到传统或混合签名", "caution"),
+    "traditional_or_mixed_observed": ("未确认全为抗量子签名", "caution"),
     "verified": ("已验证身份", "positive"),
     "unverified": ("身份未验证", "caution"),
     "classical_permitted": ("允许传统交换", "caution"),

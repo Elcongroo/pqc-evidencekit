@@ -1,5 +1,10 @@
 # PQC EvidenceKit
 
+```sh
+git clone https://github.com/Elcongroo/pqc-evidencekit.git
+cd pqc-evidencekit
+```
+
 [中文](README.md) · [Manual localhost lab](docs/manual-lab.zh.md) · [Evidence boundaries](docs/evidence-model.zh.md)
 
 **Observe whether a TLS 1.3 endpoint can complete post-quantum/traditional hybrid key establishment, with reproducible raw output.**
