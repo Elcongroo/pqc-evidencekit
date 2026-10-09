@@ -1,0 +1,60 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      integration:
+        description: Build OpenSSL 3.5.0 and run real localhost integration tests
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+
+  integration:
+    if: github.event_name == 'workflow_dispatch' && inputs.integration
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Check out a fixed public OpenSSL release
+        uses: actions/checkout@v4
+        with:
+          repository: openssl/openssl
+          ref: openssl-3.5.0
+          path: _ci-openssl
+      - name: Build test OpenSSL
+        working-directory: _ci-openssl
+        run: |
+          ./Configure no-shared no-tests --prefix="$RUNNER_TEMP/evidencekit-openssl"
+          make -j2
+          make install_sw
+          echo "$RUNNER_TEMP/evidencekit-openssl/bin" >> "$GITHUB_PATH"
+      - name: Require a real hybrid-capable toolchain
+        run: |
+          openssl version -a
+          openssl list -tls1_3 -tls-groups
+          python -m pqc_evidencekit doctor
+      - name: Real localhost integration
+        env:
+          PQC_EVIDENCEKIT_INTEGRATION: "1"
+        run: python -m unittest discover -s tests -v
